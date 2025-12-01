@@ -1,0 +1,537 @@
+{
+	"info": {
+		"_postman_id": "32ef72fd-fa42-4499-9773-635f598d86c4",
+		"name": "srinithi_productlist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50254196",
+		"_collection_link": "https://srinithis24bca057-4188473.postman.co/workspace/srinithi's-Workspace~ecbf0b0b-733a-4323-833a-4b9576fd1e4d/collection/50254196-32ef72fd-fa42-4499-9773-635f598d86c4?action=share&source=collection_link&creator=50254196"
+	},
+	"item": [
+		{
+			"name": "user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code verify\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"status message verify\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"status code below verify\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.above(199);\r",
+							"})\r",
+							"pm.test(\"verify response time\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(9000)\r",
+							"})\r",
+							"pm.expect(\"verify response time\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(0);\r",
+							"\r",
+							"})\r",
+							"pm.test(\"check Multiple headers\",function()\r",
+							"{\r",
+							"    data=[\"content-Length\",\"content-Type\",\"Date\"];\r",
+							"    data.forEach( h=>\r",
+							"    {\r",
+							"        pm.response.to.have.header(h);\r",
+							"\r",
+							"    })\r",
+							"});\r",
+							"pm.test(\"Test status code using if-else\",function()\r",
+							"{\r",
+							"    let data=pm.response.code;\r",
+							"    if(data===200)\r",
+							"    {\r",
+							"        pm.response.to.have.status(\"OK\");\r",
+							"    }\r",
+							"    else\r",
+							"    {\r",
+							"        pm.expect(data).to.eql(\"Not Found\");\r",
+							"\r",
+							"    }\r",
+							"});\r",
+							"pm.test(\"status code is not in oneof function \",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.not.oneOf([201,202,203,204,205,206,207]);\r",
+							"\r",
+							"})\r",
+							"pm.test(\"content-Length value check\",function()\r",
+							"{\r",
+							"    let data=pm.response.headers.get(\"Content-Length\");\r",
+							"    pm.expect(Number(data)).to.be.above(0);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Length\",function()\r",
+							"{\r",
+							"    let data=pm.response.headers.get(\"Content-Length\");\r",
+							"    pm.expect(Number(data)).to.be.below(8000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response exist or not\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://69243db43ad095fb84735175.mockapi.io/products",
+					"protocol": "https",
+					"host": [
+						"69243db43ad095fb84735175",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"id\",pm.response.json().id);\r",
+							"pm.test(\"verify response time\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(4000)\r",
+							"\r",
+							"})\r",
+							"pm.expect(\"verify response time\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(300);\r",
+							"\r",
+							"})\r",
+							"pm.test(\"Response exist or not\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+							"})\r",
+							"pm.test(\"verify property exists\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"productname\");\r",
+							"})\r",
+							"pm.test(\"verify value of the property  exists\",function()\r",
+							"{\r",
+							"    let data=pm.response.json().price;\r",
+							"    pm.expect(Number(data)).to.be.above(0);\r",
+							"})\r",
+							"pm.test(\"verify value datatype\",function()\r",
+							"{\r",
+							"     pm.expect(pm.response.json().price).to.be.a('string');\r",
+							"})\r",
+							"pm.test(\"product_price value below range check\",function()\r",
+							"{\r",
+							"    pm.expect(Number(pm.response.json().price)).to.be.below(500);\r",
+							"})\r",
+							"pm.test(\"check Multiple headers\",function()\r",
+							"{\r",
+							"   const data=[\"Content-Length\",\"Content-Type\",\"Date\"];\r",
+							"    data.forEach(h=>\r",
+							"    {\r",
+							"        pm.response.to.have.header(h);\r",
+							"    })\r",
+							"});\r",
+							"pm.test(\"Test status code using if-else\",function()\r",
+							"{\r",
+							"    const data=pm.response.code;\r",
+							"    if(data===200)\r",
+							"    {\r",
+							"        pm.response.to.have.status(\"OK\");\r",
+							"    }\r",
+							"    else\r",
+							"    {\r",
+							"        pm.expect(data).to.eql(201);\r",
+							"    }\r",
+							"    });\r",
+							"    pm.test(\"status code verify\",function()\r",
+							"    {\r",
+							"        pm.response.to.have.status(\"Created\");\r",
+							"    });\r",
+							"    pm.test(\"status code in range\",function()\r",
+							"    {\r",
+							"        pm.expect(pm.response.code).to.be.within(200,404);\r",
+							"\r",
+							"    })\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productname\": \"Laptop\",\r\n    \"price\": \"100\",\r\n    \"stock\": true\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}/products",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code verify\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"status code verify\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"})\r",
+							"pm.test(\"status code in range\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.within(200,404);\r",
+							"})\r",
+							"pm.test(\"range of the status code verify\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,202,205]);\r",
+							"})\r",
+							"pm.test(\"status code below verify\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.below(201);\r",
+							"})\r",
+							"pm.test(\"status code above verify\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.above(199);\r",
+							"})\r",
+							"pm.test(\"verify responsetime below 2000\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"})\r",
+							"pm.test(\"verify responsetimee\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(300);\r",
+							"})\r",
+							"pm.test(\"check content type header is present\",function()\r",
+							"{\r",
+							"    pm.response.to.have.header(\"content-type\");\r",
+							"})\r",
+							"pm.test(\"check value of content-type\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"content-type\")).to.eql(\"application/json\");\r",
+							"})\r",
+							"pm.test(\"check value of content-type\",function()\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"content-type\")).to.include(\"son\");\r",
+							"})\r",
+							"pm.test(\"check multiple headers\",function()\r",
+							"{\r",
+							"    const data=[\"content-length\",\"content-type\",\"date\"];\r",
+							"    data.forEach(n=>{\r",
+							"        pm.response.to.have.header(n);\r",
+							"    }\r",
+							"    );\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://69243db43ad095fb84735175.mockapi.io/products/1",
+					"protocol": "https",
+					"host": [
+						"69243db43ad095fb84735175",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"products",
+						"1"
+					],
+					"query": [
+						{
+							"key": "price",
+							"value": "323.49",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "putt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code verify\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"status message verify\" ,function()\r",
+							"{\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"status code within range\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.within(200, 405);\r",
+							"});\r",
+							"pm.test(\"Range of the status code verify\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([404,200,407]);\r",
+							"})\r",
+							"pm.test(\"status code below verify\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.below(405);\r",
+							"})\r",
+							"pm.test(\"status code above verify\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.above(199);\r",
+							"})\r",
+							"pm.test(\"Verify response time\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+							"})\r",
+							"pm.test(\"Verify response time\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(0);\r",
+							"})\r",
+							"pm.test(\"check content type header is present\" , function()\r",
+							"{\r",
+							"    pm.response.to.have.header(\"Content-type\");\r",
+							"})\r",
+							"pm.test(\"check value of content-type\" , function()\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-type\")).to.eql(\"application/json\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productname\": \"shirt\",\r\n    \"price\": 323.44,\r\n    \"stock\": false,\r\n    \"id\": {{id}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://69243db43ad095fb84735175.mockapi.io/products/{{id}}",
+					"protocol": "https",
+					"host": [
+						"69243db43ad095fb84735175",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"products",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code verify\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"status message verify\" ,function()\r",
+							"{\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"status code within range\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.within(200, 404);\r",
+							"});\r",
+							"pm.test(\"Range of the status code verify\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,205,404]);\r",
+							"})\r",
+							"pm.test(\"status code below verify\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.below(500);\r",
+							"})\r",
+							"pm.test(\"status code above verify\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.code).to.be.above(199);\r",
+							"})\r",
+							"pm.test(\"Verify response time\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2725);\r",
+							"})\r",
+							"pm.test(\"Verify response time\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).to.be.above(270);\r",
+							"})\r",
+							"pm.test(\"check content type header is present\" , function()\r",
+							"{\r",
+							"    pm.response.to.have.header(\"Content-type\");\r",
+							"})\r",
+							"pm.test(\"check value of content-type\" , function()\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-type\")).to.eql(\"application/json\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://69243db43ad095fb84735175.mockapi.io/products/{{id}}",
+					"protocol": "https",
+					"host": [
+						"69243db43ad095fb84735175",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"products",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://69243db43ad095fb84735175.mockapi.io"
+		},
+		{
+			"key": "id",
+			"value": "81"
+		}
+	]
+}
